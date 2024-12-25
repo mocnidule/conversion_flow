@@ -5,8 +5,6 @@ from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 import os
 
-os.environ['GH_TOKEN'] = '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'
-
 
 def measure_page_load_time(url, num_runs):
     load_times = []
