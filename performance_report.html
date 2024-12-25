@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Performance Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            margin: 20px auto;
+            width: 90%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 3px #ccc;
+            background-color: white;
+        }
+        th, td {
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .url1 {
+            background-color: #e6f7ff;
+        }
+        .url2 {
+            background-color: #fff0f6;
+        }
+        .explanation, .winner-announcement {
+            width: 90%;
+            margin: 20px auto;
+            text-align: left;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 3px #ccc;
+        }
+        .winner-announcement {
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
+            animation: blinker 1.5s linear infinite;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Performance Comparison Report</h1>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>URL 1 (https://fishingbooker.com/web/charters/view/1128)</th>
+            <th>URL 2 (https://fishingbooker.com/charters/view/1128)</th>
+        </tr>
+        <tr>
+            <td>Average Load Time (ms)</td>
+            <td class="url1">1763.0</td>
+            <td class="url2">2197.0</td>
+        </tr>
+        <tr>
+            <td>Median Load Time (ms)</td>
+            <td class="url1">1763.0</td>
+            <td class="url2">2197.0</td>
+        </tr>
+        <tr>
+            <td>Standard Deviation (ms)</td>
+            <td class="url1">0.0</td>
+            <td class="url2">0.0</td>
+        </tr>
+    </table>
+
+    <div class="explanation">
+        <p><strong>Average Load Time:</strong> This metric shows the average time it takes for the webpage to become fully interactive. It helps understand the general performance but might not always reflect the experience of all users due to variability.</p>
+        <p><strong>Median Load Time:</strong> The median provides a more reliable indicator of typical user experience by identifying the middle value in the dataset of load times. Unlike the average, it's less affected by extreme outliers, making it a valuable metric for understanding most users' experiences.</p>
+        <p><strong>Standard Deviation:</strong> This statistical measure quantifies the amount of variation or dispersion of a set of values. A low standard deviation indicates that the load times tend to be close to the median, suggesting consistent performance. Conversely, a high standard deviation indicates a wider range of performance outcomes, reflecting a more variable user experience.</p>
+    </div>
+
+    <div class="winner-announcement" id="winnerAnnouncement"></div>
+
+<script>
+    function announceWinner() {
+        var medianLoadTime1 = parseFloat('1763.0');
+        var medianLoadTime2 = parseFloat('2197.0');
+        var winnerText = "";
+
+        if (medianLoadTime1 < medianLoadTime2) {
+            winnerText = "Winner: URL 1 ('https://fishingbooker.com/web/charters/view/1128') with a faster median load time.";
+        } else if (medianLoadTime2 < medianLoadTime1) {
+            winnerText = "Winner: URL 2 ('https://fishingbooker.com/charters/view/1128') with a faster median load time.";
+        } else {
+            winnerText = "It's a tie! Both URLs have the same median load time.";
+        }
+
+        document.getElementById("winnerAnnouncement").innerText = winnerText;
+    }
+
+    window.onload = announceWinner;
+</script>
+
+</body>
+</html>

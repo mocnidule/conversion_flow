@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Performance Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            transition: background-color 0.5s ease;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 0;
+            padding: 20px 0;
+            background-color: #007bff;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .content-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .url1, .url2 {
+            background-color: #e9f5fb;
+        }
+        .explanation {
+            text-align: justify;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #333;
+            border-top: 1px solid #eee;
+        }
+        .winner-container {
+            padding: 20px;
+            animation: scaleUp 0.5s ease-in-out;
+        }
+        .winner-announcement {
+            color: #28a745;
+            font-weight: bold;
+            animation: blinker 4s linear infinite;
+        }
+        .winner-title, .winner-item {
+            padding: 10px 0;
+        }
+        @keyframes blinker {
+            50% { opacity: 0.5; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scaleUp {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+        .show-image-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+        .show-image-button:hover {
+            background-color: #0056b3;
+        }
+        .image-container {
+              display: none;
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+            margin-top: 20px;
+        }
+      .image-container img {
+    width: auto;
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+        .close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+.image-container.show {
+    display: block;
+}
+    </style>
+</head>
+<body>
+    <h1>Performance Comparison Report</h1>
+    <div class="content-container">
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>URL 1 ([[url1]])</th>
+                <th>URL 2 ([[url2]])</th>
+            </tr>
+            <tr>
+                <td>Average Load Time (ms)</td>
+                <td class="url1">[[avg_load_time1]]</td>
+                <td class="url2">[[avg_load_time2]]</td>
+            </tr>
+            <tr>
+                <td>Median Load Time (ms)</td>
+                <td class="url1">[[median_load_time1]]</td>
+                <td class="url2">[[median_load_time2]]</td>
+            </tr>
+            <tr>
+                <td>Standard Deviation (ms)</td>
+                <td class="url1">[[std_dev1]]</td>
+                <td class="url2">[[std_dev2]]</td>
+            </tr>
+        </table>
+
+        <div class="explanation">
+            <p><strong>Average Load Time:</strong><br> This metric shows the average time it takes for the webpage to become fully interactive. It helps understand the general performance but might not always reflect the experience of all users due to variability.</p>
+            <p><strong>Median Load Time:</strong><br> The median provides a more reliable indicator of typical user experience by identifying the middle value in the dataset of load times. Unlike the average, it's less affected by extreme outliers, making it a valuable metric for understanding most users' experiences.</p>
+            <p><strong>Standard Deviation:</strong><br> This statistical measure quantifies the amount of variation or dispersion of a set of values. A low standard deviation indicates that the load times tend to be close to the median, suggesting consistent performance. Conversely, a high standard deviation indicates a wider range of performance outcomes, reflecting a more variable user experience.</p>
+        </div>
+
+         <div class="winner-container">
+            <div class="winner-announcement" id="winnerAnnouncement"></div>
+        </div>
+
+   <button class="show-image-button" onclick="showImage()">Is this legit?</button>
+
+<div class="image-container" id="imageContainer">
+    <img src="static/d.jpg" alt="Performance Image">
+    <span class="close-button" onclick="showImage()">&times;</span>
+</div>
+
+
+
+
+<script>
+        function announceWinner() {
+            var avgLoadTime1 = parseFloat('[[avg_load_time1]]');
+            var avgLoadTime2 = parseFloat('[[avg_load_time2]]');
+            var medianLoadTime1 = parseFloat('[[median_load_time1]]');
+            var medianLoadTime2 = parseFloat('[[median_load_time2]]');
+            var stdDev1 = parseFloat('[[std_dev1]]');
+            var stdDev2 = parseFloat('[[std_dev2]]');
+
+            var winnerText = "<div class='winner-title'><strong>Performance Winners:</strong></div>";
+
+            winnerText += "<div class='winner-item'>Average Load Time: ";
+            winnerText += avgLoadTime1 < avgLoadTime2 ? "URL 1 is faster." : avgLoadTime2 < avgLoadTime1 ? "URL 2 is faster." : "It's a tie!";
+            winnerText += "</div>";
+
+            winnerText += "<div class='winner-item'>Median Load Time: ";
+            winnerText += medianLoadTime1 < medianLoadTime2 ? "URL 1 is faster." : medianLoadTime2 < medianLoadTime1 ? "URL 2 is faster." : "It's a tie!";
+            winnerText += "</div>";
+
+            winnerText += "<div class='winner-item'>Standard Deviation: ";
+            winnerText += stdDev1 < stdDev2 ? "URL 1 has more consistent load times." : stdDev2 < stdDev1 ? "URL 2 has more consistent load times." : "Both URLs have the same consistency in load times.";
+            winnerText += "</div>";
+
+            document.getElementById("winnerAnnouncement").innerHTML = winnerText;
+        }
+
+       function showImage() {
+    var imageContainer = document.getElementById("imageContainer");
+    if (imageContainer.classList.contains('show')) {
+        imageContainer.classList.remove('show');
+    } else {
+        imageContainer.classList.add('show');
+    }
+}
+
+
+
+        window.onload = announceWinner;
+    </script>
+</body>
+</html>
